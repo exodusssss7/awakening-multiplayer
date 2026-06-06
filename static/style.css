@@ -26,78 +26,209 @@ body {
     background-color: rgba(0,0,0,0.8);
     justify-content: center;
     align-items: center;
+    backdrop-filter: blur(5px);
 }
 
 .modal-content {
     background-color: #2a2a2a;
-    padding: 30px;
-    border-radius: 10px;
+    padding: 40px;
+    border-radius: 15px;
     text-align: center;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+    border: 1px solid #444;
 }
 
 .modal-content h2 {
-    margin-bottom: 20px;
+    margin-bottom: 25px;
+    color: #fff;
 }
 
 #username-input {
-    padding: 10px;
+    padding: 12px 15px;
     width: 80%;
-    margin-bottom: 15px;
-    border: 1px solid #444;
-    background-color: #222;
+    margin-bottom: 20px;
+    border: 1px solid #555;
+    background-color: #111;
     color: white;
-    border-radius: 5px;
+    border-radius: 8px;
+    font-size: 1.1em;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+#username-input:focus {
+    border-color: #4a90e2;
 }
 
 #join-btn {
-    padding: 10px 20px;
+    padding: 12px 30px;
     background-color: #4a90e2;
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     cursor: pointer;
     font-weight: bold;
+    font-size: 1.1em;
+    transition: all 0.3s ease;
 }
 
-.chat-container {
+#join-btn:hover {
+    background-color: #357abd;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(74, 144, 226, 0.4);
+}
+
+/* Layout */
+.main-layout {
+    display: flex;
     width: 100%;
-    max-width: 600px;
+    max-width: 1000px;
     height: 90vh;
-    background-color: #2a2a2a;
-    border-radius: 10px;
+    background-color: #252525;
+    border-radius: 15px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.7);
+    overflow: hidden;
+    border: 1px solid #333;
+}
+
+.sidebar {
+    width: 260px;
+    background-color: #1e1e1e;
+    border-right: 1px solid #333;
     display: flex;
     flex-direction: column;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-    overflow: hidden;
+}
+
+/* Modern Pill Tabs */
+.tabs {
+    display: flex;
+    flex-direction: column;
+    padding: 20px 15px;
+    gap: 10px;
+    border-bottom: 1px solid #333;
+}
+
+.tab-btn {
+    padding: 12px 20px;
+    background-color: transparent;
+    border: 1px solid transparent;
+    color: #888;
+    cursor: pointer;
+    font-size: 1.05em;
+    font-weight: bold;
+    text-align: left;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+}
+
+.tab-btn:hover {
+    background-color: rgba(255,255,255,0.05);
+    color: #ddd;
+}
+
+.tab-btn.active {
+    background-color: rgba(74, 144, 226, 0.15);
+    color: #4a90e2;
+    border: 1px solid rgba(74, 144, 226, 0.3);
+    box-shadow: 0 0 15px rgba(74, 144, 226, 0.1);
+}
+
+/* Online Users Animation */
+.online-users-container {
+    padding: 20px 15px;
+    flex-grow: 1;
+    overflow-y: auto;
+}
+
+.online-users-container h3 {
+    margin-bottom: 15px;
+    font-size: 0.85em;
+    color: #777;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding-left: 5px;
+}
+
+#online-users-list {
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.online-user-item {
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background-color: rgba(0,0,0,0.2);
+    border-radius: 8px;
+    font-size: 0.95em;
+    transition: background-color 0.2s;
+}
+
+.online-user-item:hover {
+    background-color: rgba(0,0,0,0.4);
+}
+
+.status-dot {
+    width: 10px;
+    height: 10px;
+    background-color: #4cd964;
+    border-radius: 50%;
+    box-shadow: 0 0 8px #4cd964;
+    animation: pulse-dot 2s infinite;
+}
+
+@keyframes pulse-dot {
+    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(76, 217, 100, 0.7); }
+    70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(76, 217, 100, 0); }
+    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(76, 217, 100, 0); }
+}
+
+/* Chat Area */
+.chat-container {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: #2a2a2a;
 }
 
 .chat-header {
-    background-color: #333;
-    padding: 20px;
-    text-align: center;
-    border-bottom: 1px solid #444;
+    background-color: #222;
+    padding: 20px 30px;
+    border-bottom: 1px solid #333;
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.chat-header h2 {
+    font-size: 1.4em;
+    color: #fff;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
 
 .toggle-container {
     display: flex;
     align-items: center;
     gap: 10px;
+    background-color: rgba(0,0,0,0.2);
+    padding: 8px 15px;
+    border-radius: 20px;
 }
 
 .toggle-label {
     font-size: 0.9em;
     color: #aaa;
+    font-weight: bold;
 }
 
 .switch {
   position: relative;
   display: inline-block;
-  width: 40px;
-  height: 20px;
+  width: 44px;
+  height: 24px;
 }
 
 .switch input { 
@@ -120,16 +251,17 @@ body {
 .slider:before {
   position: absolute;
   content: "";
-  height: 14px;
-  width: 14px;
-  left: 3px;
-  bottom: 3px;
+  height: 16px;
+  width: 16px;
+  left: 4px;
+  bottom: 4px;
   background-color: white;
   transition: .4s;
 }
 
 input:checked + .slider {
   background-color: #4a90e2;
+  box-shadow: 0 0 10px rgba(74, 144, 226, 0.5);
 }
 
 input:checked + .slider:before {
@@ -146,69 +278,95 @@ input:checked + .slider:before {
 
 .chat-box {
     flex-grow: 1;
-    padding: 20px;
+    padding: 25px;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 18px;
 }
 
 .message {
-    max-width: 80%;
-    padding: 12px 16px;
-    border-radius: 20px;
-    line-height: 1.4;
+    max-width: 75%;
+    padding: 14px 18px;
+    border-radius: 18px;
+    line-height: 1.5;
     word-wrap: break-word;
+    font-size: 1.05em;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
 .message.user {
-    background-color: #4a90e2;
-    color: white;
+    background-color: #2b5278;
+    color: #f0f0f0;
     align-self: flex-end;
-    border-bottom-right-radius: 5px;
+    border-bottom-right-radius: 4px;
 }
 
 .message.assistant {
-    background-color: #444;
+    background-color: #383838;
     color: #e0e0e0;
     align-self: flex-start;
-    border-bottom-left-radius: 5px;
+    border-bottom-left-radius: 4px;
+    border: 1px solid #444;
+}
+
+/* Username Colors inside messages */
+.chat-username {
+    font-weight: 800;
+    margin-right: 6px;
+    font-size: 1em;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
 }
 
 .typing-indicator {
-    font-size: 0.8em;
+    font-size: 0.85em;
     color: #888;
-    padding: 5px 20px;
+    padding: 5px 25px;
     font-style: italic;
-    background-color: #2a2a2a;
+    background-color: transparent;
+    height: 25px;
 }
 
 .input-container {
     display: flex;
-    padding: 15px;
-    background-color: #333;
-    border-top: 1px solid #444;
+    padding: 20px;
+    background-color: #222;
+    border-top: 1px solid #333;
+    gap: 15px;
 }
 
 #chat-input {
     flex-grow: 1;
-    padding: 12px;
-    background-color: #222;
+    padding: 15px;
+    background-color: #1a1a1a;
     border: 1px solid #444;
-    border-radius: 5px;
+    border-radius: 25px;
     color: white;
     outline: none;
+    font-size: 1.05em;
+    transition: all 0.3s ease;
+}
+
+#chat-input:focus {
+    border-color: #4a90e2;
+    box-shadow: 0 0 10px rgba(74, 144, 226, 0.2);
 }
 
 #send-btn {
-    padding: 10px 20px;
-    margin-left: 10px;
+    padding: 0 25px;
     background-color: #4a90e2;
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 25px;
     cursor: pointer;
     font-weight: bold;
+    font-size: 1.05em;
+    transition: all 0.2s ease;
+}
+
+#send-btn:hover {
+    background-color: #357abd;
+    transform: scale(1.05);
 }
 
 .loading {
@@ -216,24 +374,28 @@ input:checked + .slider:before {
     color: #aaa;
     font-style: italic;
     font-size: 0.9em;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
 }
 
 .search-indicator {
     align-self: center;
     color: #4a90e2;
-    font-size: 0.85em;
+    font-size: 0.9em;
     background-color: rgba(74, 144, 226, 0.1);
-    padding: 5px 15px;
-    border-radius: 15px;
+    padding: 8px 20px;
+    border-radius: 20px;
     margin: 5px 0;
     display: flex;
     align-items: center;
     gap: 8px;
     animation: pulse 1.5s infinite;
+    border: 1px solid rgba(74, 144, 226, 0.3);
 }
 
 @keyframes pulse {
-    0% { opacity: 0.6; }
+    0% { opacity: 0.5; }
     50% { opacity: 1; }
-    100% { opacity: 0.6; }
+    100% { opacity: 0.5; }
 }
