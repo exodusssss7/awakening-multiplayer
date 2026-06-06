@@ -23,6 +23,15 @@ document.addEventListener('DOMContentLoaded', () => {
     let typingTimeout = null;
     let activeTypers = new Set();
 
+    function getColorForUsername(name) {
+        let hash = 0;
+        for (let i = 0; i < name.length; i++) {
+            hash = name.charCodeAt(i) + ((hash << 5) - hash);
+        }
+        const h = hash % 360;
+        return `hsl(${h}, 85%, 65%)`;
+    }
+
     joinBtn.addEventListener('click', () => {
         const val = usernameInput.value.trim();
         if (val) {
@@ -67,7 +76,27 @@ document.addEventListener('DOMContentLoaded', () => {
     function addMessageToUI(role, content) {
         const messageDiv = document.createElement('div');
         messageDiv.classList.add('message', role);
-        messageDiv.textContent = content;
+        
+        if (role === 'user') {
+            const splitIndex = content.indexOf(':');
+            if (splitIndex > -1) {
+                const name = content.substring(0, splitIndex);
+                const msgText = content.substring(splitIndex + 1);
+                
+                const nameSpan = document.createElement('span');
+                nameSpan.classList.add('chat-username');
+                nameSpan.style.color = getColorForUsername(name);
+                nameSpan.textContent = name + ':';
+                
+                messageDiv.appendChild(nameSpan);
+                messageDiv.appendChild(document.createTextNode(msgText));
+            } else {
+                messageDiv.textContent = content;
+            }
+        } else {
+            messageDiv.textContent = content;
+        }
+
         chatBox.appendChild(messageDiv);
         scrollToBottom();
     }
@@ -89,7 +118,16 @@ document.addEventListener('DOMContentLoaded', () => {
         onlineUsersList.innerHTML = '';
         users.forEach(u => {
             const li = document.createElement('li');
-            li.textContent = u;
+            li.classList.add('online-user-item');
+            
+            const dot = document.createElement('div');
+            dot.classList.add('status-dot');
+            
+            const nameSpan = document.createElement('span');
+            nameSpan.textContent = u;
+            
+            li.appendChild(dot);
+            li.appendChild(nameSpan);
             onlineUsersList.appendChild(li);
         });
     });
