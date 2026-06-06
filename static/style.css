@@ -14,7 +14,6 @@ body {
     height: 100vh;
 }
 
-/* Modal Styles */
 .modal {
     display: flex;
     position: fixed;
@@ -78,7 +77,6 @@ body {
     box-shadow: 0 5px 15px rgba(74, 144, 226, 0.4);
 }
 
-/* Layout */
 .main-layout {
     display: flex;
     width: 100%;
@@ -99,7 +97,6 @@ body {
     flex-direction: column;
 }
 
-/* Modern Pill Tabs */
 .tabs {
     display: flex;
     flex-direction: column;
@@ -133,7 +130,6 @@ body {
     box-shadow: 0 0 15px rgba(74, 144, 226, 0.1);
 }
 
-/* Online Users Animation */
 .online-users-container {
     padding: 20px 15px;
     flex-grow: 1;
@@ -186,7 +182,6 @@ body {
     100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(76, 217, 100, 0); }
 }
 
-/* Chat Area */
 .chat-container {
     flex-grow: 1;
     display: flex;
@@ -310,7 +305,6 @@ input:checked + .slider:before {
     border: 1px solid #444;
 }
 
-/* Username Colors inside messages */
 .chat-username {
     font-weight: 800;
     margin-right: 6px;
