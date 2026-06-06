@@ -75,6 +75,7 @@ def handle_message(data):
     formatted_user_msg = f"{username}: {user_message}"
     emit("receive_message", {"role": "user", "content": formatted_user_msg}, broadcast=True)
     emit("ai_thinking", broadcast=True)
+    
     try:
         database.add_message("user", user_message, username)
         messages_history = database.get_all_messages()
@@ -141,6 +142,7 @@ def handle_message(data):
                     "name": "search_internet",
                     "content": search_results_text
                 })
+                
                 payload["messages"] = api_messages
                 response2 = requests.post(API_URL, headers=headers, json=payload)
                 response2.raise_for_status()
