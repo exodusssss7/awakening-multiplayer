@@ -2,9 +2,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const socket = io();
     
     const modal = document.getElementById('username-modal');
-    const chatContainer = document.getElementById('chat-container');
+    const mainLayout = document.getElementById('main-layout');
     const usernameInput = document.getElementById('username-input');
     const joinBtn = document.getElementById('join-btn');
+    
+    const tabAi = document.getElementById('tab-ai');
+    const tabPrivate = document.getElementById('tab-private');
+    const roomTitle = document.getElementById('room-title');
+    const internetToggleContainer = document.getElementById('internet-toggle-container');
+    const onlineUsersList = document.getElementById('online-users-list');
     
     const chatBox = document.getElementById('chat-box');
     const chatInput = document.getElementById('chat-input');
@@ -13,6 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const typingIndicator = document.getElementById('typing-indicator');
 
     let username = "";
+    let currentRoom = "ai_room";
     let typingTimeout = null;
     let activeTypers = new Set();
 
@@ -21,9 +28,37 @@ document.addEventListener('DOMContentLoaded', () => {
         if (val) {
             username = val;
             modal.style.display = 'none';
-            chatContainer.style.display = 'flex';
+            mainLayout.style.display = 'flex';
+            
+            socket.emit('join', { username: username, room: currentRoom });
         }
     });
+
+    function switchRoom(newRoom, btnElement) {
+        if (currentRoom === newRoom) return;
+        
+        tabAi.classList.remove('active');
+        tabPrivate.classList.remove('active');
+        btnElement.classList.add('active');
+        
+        currentRoom = newRoom;
+        chatBox.innerHTML = '';
+        activeTypers.clear();
+        updateTypingUI();
+        
+        if (currentRoom === 'private_room') {
+            roomTitle.textContent = "Private Chat";
+            internetToggleContainer.style.display = 'none';
+        } else {
+            roomTitle.textContent = "The Awakening";
+            internetToggleContainer.style.display = 'flex';
+        }
+        
+        socket.emit('join', { username: username, room: currentRoom });
+    }
+
+    tabAi.addEventListener('click', () => switchRoom('ai_room', tabAi));
+    tabPrivate.addEventListener('click', () => switchRoom('private_room', tabPrivate));
 
     function scrollToBottom() {
         chatBox.scrollTop = chatBox.scrollHeight;
@@ -50,12 +85,21 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    socket.on('presence_update', (users) => {
+        onlineUsersList.innerHTML = '';
+        users.forEach(u => {
+            const li = document.createElement('li');
+            li.textContent = u;
+            onlineUsersList.appendChild(li);
+        });
+    });
+
     socket.on('history', (messages) => {
         chatBox.innerHTML = '';
         messages.forEach(msg => {
             addMessageToUI(msg.role, msg.content);
         });
-        if (messages.length === 0) {
+        if (messages.length === 0 && currentRoom === 'ai_room') {
             const welcomeDiv = document.createElement('div');
             welcomeDiv.style.textAlign = 'center';
             welcomeDiv.style.color = '#888';
@@ -111,11 +155,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     chatInput.addEventListener('input', () => {
-        socket.emit('typing', { username: username });
+        socket.emit('typing', { username: username, room: currentRoom });
         
         clearTimeout(typingTimeout);
         typingTimeout = setTimeout(() => {
-            socket.emit('stop_typing', { username: username });
+            socket.emit('stop_typing', { username: username, room: currentRoom });
         }, 1500);
     });
 
@@ -124,11 +168,12 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!text) return;
 
         chatInput.value = '';
-        socket.emit('stop_typing', { username: username });
+        socket.emit('stop_typing', { username: username, room: currentRoom });
         
         socket.emit('send_message', {
             message: text,
             username: username,
+            room: currentRoom,
             internet_enabled: internetToggle.checked
         });
     }
