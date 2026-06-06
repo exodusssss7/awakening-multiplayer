@@ -16,26 +16,39 @@
         </div>
     </div>
 
-    <div class="chat-container" id="chat-container" style="display: none;">
-        <div class="chat-header">
-            <h2>The Awakening</h2>
-            <div class="toggle-container">
-                <span class="toggle-label">🌍 Internet</span>
-                <label class="switch">
-                    <input type="checkbox" id="internet-toggle">
-                    <span class="slider round"></span>
-                </label>
+    <div class="main-layout" id="main-layout" style="display: none;">
+        <div class="sidebar">
+            <div class="tabs">
+                <button class="tab-btn active" id="tab-ai" data-room="ai_room">AI Room</button>
+                <button class="tab-btn" id="tab-private" data-room="private_room">Private Room</button>
+            </div>
+            <div class="online-users-container">
+                <h3>Online Users</h3>
+                <ul id="online-users-list"></ul>
             </div>
         </div>
-        <div id="chat-box" class="chat-box">
-            <!-- Messages will be rendered here -->
-        </div>
-        <div id="typing-indicator" class="typing-indicator" style="display: none;">
-            Someone is typing...
-        </div>
-        <div class="input-container">
-            <input type="text" id="chat-input" placeholder="Say something..." autocomplete="off">
-            <button id="send-btn">Send</button>
+        
+        <div class="chat-container">
+            <div class="chat-header">
+                <h2 id="room-title">The Awakening</h2>
+                <div class="toggle-container" id="internet-toggle-container">
+                    <span class="toggle-label">🌍 Internet</span>
+                    <label class="switch">
+                        <input type="checkbox" id="internet-toggle">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+            </div>
+            <div id="chat-box" class="chat-box">
+                <!-- Messages will be rendered here -->
+            </div>
+            <div id="typing-indicator" class="typing-indicator" style="display: none;">
+                Someone is typing...
+            </div>
+            <div class="input-container">
+                <input type="text" id="chat-input" placeholder="Say something..." autocomplete="off">
+                <button id="send-btn">Send</button>
+            </div>
         </div>
     </div>
     <script src="/static/script.js"></script>
